@@ -1,0 +1,6 @@
+**/.*
+*.log*
+**/__pycache__
+**/*.pyc
+**/test_*
+docker_data/

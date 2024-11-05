@@ -1,0 +1,66 @@
+x-environment: &environment
+  DB_PATH: /app/db/db.sqlite3
+  RABBITMQ_URI: amqp://guest:guest@rabbitmq:5672
+
+x-volumes: &volumes
+  - ./docker_data/db/:/app/db/
+
+x-build-args: &build_args
+    POETRY_CACHE_DIR: /tmp/poetry_cache/text_processing
+
+x-build: &build
+  context: .
+  args:
+    <<: *build_args
+
+x-env_file: &env_file
+  path: .env.shared
+  required: false
+
+x-depends: &depends
+  rabbitmq:
+    condition: service_healthy
+
+services:
+  rabbitmq:
+    image: rabbitmq:4.0.3-management-alpine
+    ports:
+      - 127.0.0.1:5672:5672
+      - 127.0.0.1:15672:15672
+    volumes:
+      - ./docker_data/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./docker_data/rabbitmq/log/:/var/log/rabbitmq/
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      start_period: 15s
+      start_interval: 1s
+  web_api:
+    build:
+      <<: *build
+      args:
+        <<: *build_args
+        SERVICE_NAME: web_api
+    ports:
+      - 127.0.0.1:8000:8000
+    depends_on: *depends
+    volumes: *volumes
+    env_file:
+      - *env_file
+      - path: .env.web_api
+        required: false
+    environment:
+      <<: *environment
+      WEB_API_HOST: 0.0.0.0
+  task_processor:
+    build:
+      <<: *build
+      args:
+        <<: *build_args
+        SERVICE_NAME: task_processor
+    depends_on: *depends
+    volumes: *volumes
+    env_file:
+      - *env_file
+      - path: .env.task_processor
+        required: false
+    environment: *environment

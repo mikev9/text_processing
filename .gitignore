@@ -1,0 +1,10 @@
+**/.*
+**/*.pyc
+*.local
+*.log
+*.swp
+*.bak
+__MACOSX
+docker_data/
+!.gitignore
+!.dockerignore
