@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "text_processing"
+version = "0.1.0"
+description = ""
+authors = ["mikev9 <140257671+mikev9@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+shared = {path = "shared", develop = true}
+uvicorn = {extras = ["standard"], version = "^0.32.0"}
+orjson = "^3.10.10"
+aio-pika = "^9.4.3"
+psutil = "^6.1.0"
+pydantic-settings = "^2.6.0"
+python-dotenv = "^1.0.1"
+sqlmodel = "^0.0.22"
+
+[tool.poetry.group.web_api]
+optional = true
+
+[tool.poetry.group.web_api.dependencies]
+fastapi = "^0.115.3"
+
+[tool.poetry.group.task_processor]
+optional = true
+
+[tool.poetry.group.task_processor.dependencies]
+langdetect = "^1.0.9"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.28.0"
+aiohttp = {extras = ["speedups"], version = "^3.10.10"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

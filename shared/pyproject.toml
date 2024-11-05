@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "shared"
+version = "0.1.0"
+description = "Shared libs"
+authors = ["mikev9 <140257671+mikev9@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
