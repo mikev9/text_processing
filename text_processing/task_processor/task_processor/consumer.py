@@ -75,7 +75,7 @@ class Consumer(BaseConsumer):
                 original_text=dto.original_text,
                 status=FAILED,
                 type=dto.type,
-                cause='fake error 222',
+                cause=repr(exc),
             )
             raise
 
